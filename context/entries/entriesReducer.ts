@@ -5,6 +5,7 @@ type EntriesActionTypes =
 | {type: '[Entries]-AddEntries',payload:EntryInterface }
 | {type: '[Entries]-UpDateStausEntries',payload:EntryInterface }
 | {type: '[Entries]-RefreshEntries',payload:EntryInterface[] }
+| {type: '[Entries]-DeleteEntries',payload:EntryInterface }
 
 export const entriesReducer = (state : EntriesState, action : EntriesActionTypes) : EntriesState => {
 
@@ -23,7 +24,12 @@ export const entriesReducer = (state : EntriesState, action : EntriesActionTypes
             return{
                 ...state,
                 entries: [...action.payload]
-            }
+            };
+        case "[Entries]-DeleteEntries":
+            return {
+                ...state,
+                entries: state.entries.filter(entry => entry._id !== action.payload._id)
+            }    
 
         default:
             return state;

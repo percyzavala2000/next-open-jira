@@ -21,8 +21,6 @@ if(request.nextUrl.pathname.startsWith('/api/entries/')){
   
 }
     
-
-
   return NextResponse.next()
 }
 

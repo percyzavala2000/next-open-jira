@@ -10,7 +10,6 @@ type Data = |{message: string }
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
-
     switch (req.method) {
         case 'GET':
             return getEntries(res)
@@ -37,12 +36,18 @@ const getEntries = async(res: NextApiResponse<Data>) => {
 }
 
     const postEntries = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
-            
+
+        const {  description="" } = req.body
+        const newEntry =new EntryModel( {
+            description,
+            createdAt: Date.now(),
+        });
+
             try {
                 await db.connect()
-                const entry = await EntryModel.create(req.body)
+                await newEntry.save()
                 await db.disconnect()
-                return res.status(201).json( entry )
+                return res.status(201).json( newEntry )
             } catch (error) {
                 return res.status(400).json({ message: 'Internal server error' })
             }

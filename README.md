@@ -15,6 +15,15 @@ docker-compose up -d
 moodb://localhost:27017/DBEntries
 
 ```
+* Recostruir  los modulos de node  y levantar nextjs
+    
+    ```
+    npm install,
+    yarn install,
+    npm run dev,
+    yarn dev
+    ```
+
 
 ## configurar las variables de entorno
 

@@ -18,6 +18,8 @@ if(!mongoose.isValidObjectId(entryid)){
         case 'PUT':
             return updateEntries(req, res);   
         default:
+        case 'DELETE':
+            return deleteEntries(req,res)    
             return res.status(405).json({ message: 'Method not exist' }) 
 
 }   
@@ -38,6 +40,7 @@ const getEntries = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
 
 const updateEntries = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
     const {entryid}=req.query;
+
     await db.connect();
     const entryUpdate=await EntryModel.findById(entryid);
     if(!entryUpdate){
@@ -56,4 +59,18 @@ const updateEntries = async(req: NextApiRequest, res: NextApiResponse<Data>) => 
         await db.disconnect();
         return res.status(500).json({message:'Algo salio mal revisar en la consola del servidor'})
     }
+}
+
+const deleteEntries = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
+
+    const {entryid}=req.query;
+    await db.connect();
+    const entry=await EntryModel.findById(entryid);
+    if(!entry){
+        return res.status(404).json({message:'No existe el id'})
+    }
+    await entry.remove();
+    await db.disconnect();
+    return res.status(200).json({message:'Se elimino el id'+entryid})
+
 }

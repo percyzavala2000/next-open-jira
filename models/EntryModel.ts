@@ -19,7 +19,8 @@ export const EntrySchema = new Schema({
                 'pending', 'in-progress', 'finished'
             ],
             message: '{VALUE} no es un estado valido'
-        }
+        },
+        default: 'pending'
     }
 
 });
